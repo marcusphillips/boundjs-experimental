@@ -1,14 +1,17 @@
-# React templating library
+# NOTE: THIS IS A BROKEN, BETA VERSION OF THE LIBRARY.
+Not for public use.
+
+# Bound templating library
 
 ***
 
-## What is React?
-React is an HTML templating language designed for easy rerendering. It can manage view updates automatically by monitoring the state of the original input objects, and updating the original output nodes accordingly.
+## What is Bound?
+Bound is an HTML templating language designed for easy rerendering. It can manage view updates automatically by monitoring the state of the original input objects, and updating the original output nodes accordingly.
 
 ***
 
 ## What does it look like?
-React templates are expressed entirely in HTML, and can always be validated as such.  The directives that control rendering are written in a custom `react` attribute, such as `<div react="contain myString"></div>`.
+Bound templates are expressed entirely in HTML, and can always be validated as such.  The directives that control rendering are written in custom `data-*` attributes, such as `<div data-contents="myProperty"></div>`.
 
 ***
 
@@ -40,70 +43,70 @@ OK, here's some sample code that illustrates the basics:
     </script>
 
 
-#### The Reactive way
+#### The Bound way
 
     <script>
       // just once, you anchor a node to its scope
-      $('#profile').anchor(user);
+      $('#profile').render(user);
       // Now all your changes to the user object will result in automatic updates to the #profile node
     </script>
 
 
 #### how is that possible?
 
-It's all due to react directives you put in custom HTML attributes in your templates, like this:
+It's all due to bound directives you put in custom HTML attributes in your templates, like this:
 
     <div id="profile">
-      <img class="mugshot"   react="attr 'src' mugshotUrl"/>
-      <span class="caption"  react="contain mugshotCaption"></span>
-      <a href="/admin_panel" react="showIf isAdmin"/>
+      <img class="mugshot"   data-attr="'src' mugshotUrl"/>
+      <span class="caption"  data-contents="mugshotCaption"></span>
+      <a href="/admin_panel" data-if="isAdmin">Admin panel</a>
     </div>
 
 ***
 
-## What features does React give me?
+## What features does Bound give me?
 
 #### The output of a rendering operation is still a valid input template
-In fact, the output template is equivalent to the the input template, but with appropriate substitutions.  In the process, It retains all its original directives that were used to control rendering.  Directives are things like 'for' and 'contain' that tell the engine what to do to the template - in some template languages, these are expressed with a custom syntax like `{{...}}` or `<?...?>`.  But since React directives are all contained in custom DOM attributes, they can be preserved after the render step, and considered again during render updates.
+In fact, the output template is equivalent to the the input template, but with appropriate substitutions.  In the process, It retains all its original directives that were used to control rendering.  Directives are things like 'for' and 'contain' that tell the engine what to do to the template - in some template languages, these are expressed with a custom syntax like `{{...}}` or `<?...?>`.  But since Bound directives are all contained in custom DOM attributes, they can be preserved after the render step, and considered again during render updates.
 
-#### React can manage those view updates for you
+#### Bound can manage those view updates for you
 Thanks to the previous feature, the library is also capable of managing all view updates, without you manually calling for them.  If you use this auto-rerender feature (or 'anchor'), you can delete large swaths of your view code that were previously responsible for keeping DOM output in sync with model state.  For example, that would include most jQuery operations, such as `$('#mySelector').css({color:'red'}).show()`.
 
-#### React helps your app gracefully scale through complexity
-Often in small applications, view management code is minimal enough to go unnoticed.  But as the app grows complex, view management becomes exponentially harder, since each subsequent feature has to be respectful of more and more existing features.  After all, they share a common DOM tree, and each one can impose new expectations on it.  A handshake problem develops as the growing number of features mutate this single resource (see [exponential complexity and the handshake problem](http://en.wikipedia.org/wiki/Triangular_number)).  In essence, while object orientation allows us to divide and conquer app logic, this single, shared view resource (the DOM) mixes it all together again.  Reactive data binding can untie that knot for you.
+#### Bound helps your app gracefully scale through complexity
+Often in small applications, view management code is minimal enough to go unnoticed.  But as the app grows complex, view management becomes exponentially harder, since each subsequent feature has to be respectful of more and more existing features.  After all, they share a common DOM tree, and each one can impose new expectations on it.  A handshake problem develops as the growing number of features mutate this single resource (see [exponential complexity and the handshake problem](http://en.wikipedia.org/wiki/Triangular_number)).  In essence, while object orientation allows us to divide and conquer app logic, this single, shared view resource (the DOM) mixes it all together again.  Data binding can untie that knot for you.
 
 #### Plays nice with others
-What sets React apart from other reactive data binding libraries is its emphasis on compatibility and minimal imposition.  It is compatible with nearly every other JavaScript library and pattern you might be using.
+What sets Bound apart from other data binding libraries is its emphasis on compatibility and minimal imposition.  It is compatible with nearly every other JavaScript library and pattern you might be using.
 
 #### Standard building blocks
-When rendering templates, React accepts any vanilla JavaScript object, not just a custom class or special data format.  Similarly, the input template can be any valid string of HTML or a memory reference to an existing node.  The output will always be a DOM node reference, but with appropriate substitutions.  (Support for string output mode is planned for later versions, primarily for use on the server-side.)
+When rendering templates, Bound accepts any vanilla JavaScript object, not just a custom class or special data format.  Similarly, the input template can be any valid string of HTML or a memory reference to an existing node.  The output will always be a DOM node reference, but with appropriate substitutions.  (Support for string output mode is planned for later versions, primarily for use on the server-side.)
 
 #### Intrinsic XSS protection
-Since React achieves template substitutions by way of a builder pattern, the browser can always correctly escape your input for the given context.  This is an inherent advantage to builder patterns in general.  Injection attacks occur when an attacker can define part of a string that will eventually be interpreted by some part of the system as if it were code.  With builder patterns, the line between code and input is clear unless you work to blur it, rather than the other way around.  Note that React can't prevent all XSS vulnerabilities in your app, but does make the problem much easier to solve.
+Since Bound achieves template substitutions by way of a builder pattern, the browser can always correctly escape your input for the given context.  This is an inherent advantage to builder patterns in general.  Injection attacks occur when an attacker can define part of a string that will eventually be interpreted by some part of the system as if it were code.  With builder patterns, the line between code and input is clear unless you work to blur it, rather than the other way around.  Note that Bound can't prevent all XSS vulnerabilities in your app, but does make the problem much easier to solve.
 
-#### Any valid HTML snippet is a valid React template, and vice-versa
-React doesn't require anything special in your HTML except when you want to tell it what to do at render time, and it never requires non-validating syntax.  Since react directives are stored in an unobtrusive custom attribute, they are ignored by all other parts of the browser and your application.
+#### Any valid HTML snippet is a valid Bound template, and vice-versa
+Bound doesn't require anything special in your HTML except when you want to tell it what to do at render time, and it never requires non-validating syntax.  Since bound directives are stored in an unobtrusive custom attribute, they are ignored by all other parts of the browser and your application.
 
 #### Any JavaScript object is a valid view object
 You indicate your substitution values for the update() method by passing it a view object.  To handle this, you can define a class, construct a custom input object every time, or even re-use the JS objects already in use by your system.
 
 #### Renders respect untracked DOM state
-Unless you specify otherwise in the directives, React won't replace any part of the DOM tree, or even modify it.  Many client-side template systems achieve data binding by replacing branches of the tree with freshly-rendered ones every time a change event occurs.  This has several undesirable implications:
+Unless you specify otherwise in the directives, Bound won't replace any part of the DOM tree, or even modify it.  Many client-side template systems achieve data binding by replacing branches of the tree with freshly-rendered ones every time a change event occurs.  This has several undesirable implications:
 
 - Any user interactions that the browser tracks over time (scroll position, cursor highlighting, checked state, etc) get blasted on re-render.  You are usually forced to manage more and more of those details over time, as they become important to your app.
 - Any modifications you or your helper libraries have made to the DOM tree (think `$('#mySelector').css({color:'red'})`) get inadvertently discarded at render time if you haven't mirrored those changes to the rendering system.
 - Event handlers must be continuously re-bound to the newly rendered nodes.  This is a major source of incompatibility for data binding libraries.  Best case, detaching and re-attaching the listeners is slow but achievable.  Worst case, proper event rebinding is unachievable without major hacks to one of the two conflicting libraries.
 
-By re-using the existing output tree as the template in subsequent renders, React respects these subtle UI modifications.
+By re-using the existing output tree as the template in subsequent renders, Bound respects these subtle UI modifications.
 
 #### The template structure and directives are readable in your browser's DOM inspector.
-React doesn't obscure its directives in the output, so looking at the rendered output with Firebug reveals the same structures you defined in your template file, plus appropriate substitutions.  This parity reduces guesswork about which DOM nodes correspond to which parts of your template code.
+Bound doesn't obscure its directives in the output, so looking at the rendered output with Firebug reveals the same structures you defined in your template file, plus appropriate substitutions.  This parity reduces guesswork about which DOM nodes correspond to which parts of your template code.
 
 #### Dynamic template modification
-Manipulating React templates is easy because you don't 'define' them so much as 'provide' them - any node will do.  They're just trees, so you can construct and modify them using all the standard manipulation features provided by the browser (appendChild, innerHTML, etc.), even after render.  For example, if you move part of a rendered React template from one widget to another, you have just successfully modified both templates.  A subsequent update operation on either one will behave as if it's always had the new structure.  This is particularly useful if you already have library or application logic that modifies the DOM dynamically.  That existing code remains valid, with React's features simply stacking on top in predictable ways.
+Manipulating Bound templates is easy because you don't 'define' them so much as 'provide' them - any node will do.  They're just trees, so you can construct and modify them using all the standard manipulation features provided by the browser (appendChild, innerHTML, etc.), even after render.  For example, if you move part of a rendered Bound template from one widget to another, you have just successfully modified both templates.  A subsequent update operation on either one will behave as if it's always had the new structure.  This is particularly useful if you already have library or application logic that modifies the DOM dynamically.  That existing code remains valid, with Bound's features simply stacking on top in predictable ways.
 
 #### Low help:magic ratio
-React aims to minimize unpredictable behavior whenever possible.  For example, React won't generate new markup for you. You supply all the control nodes, so there aren't any surprising side-effects on CSS and layout.  At every juncture, React emphasizes explicitness over magic.
+Bound aims to minimize unpredictable behavior whenever possible.  For example, Bound won't generate new markup for you. You supply all the control nodes, so there aren't any surprising side-effects on CSS and layout.  At every juncture, Bound emphasizes explicitness over magic.
 
 #### Encourages valid output markup
 Since tags themselves are used to delimit directive blocks, there's no risk of misusing template constructs in combination with HTML constructs (for example, closing a tag inside a conditional).  Formatting errors in your templates can be detected with standard static analysis tools for validating HTML.
@@ -111,14 +114,14 @@ Since tags themselves are used to delimit directive blocks, there's no risk of m
 ***
 
 ## What do I give up for these features?
-You do make compromises when you choose to express your templates entirely in HTML.  For one thing, it's more verbose for some use cases.  A mid-paragraph variable substitution, for example, will require an entire tag, rather than just a few curly braces.  Furthermore, since the directives are contained in custom attributes, expressing substitutions for attributes themselves can be tricky.  This is why React has special-case directives like 'attr', 'class', and 'style', as well as the conditional versions of each.
+You do make compromises when you choose to express your templates entirely in HTML.  For one thing, it's more verbose for some use cases.  A mid-paragraph variable substitution, for example, will require an entire tag, rather than just a few curly braces.  Furthermore, since the directives are contained in custom attributes, expressing substitutions for attributes themselves can be tricky.  This is why Bound has special-case directives like 'attr', 'class', and 'style', as well as the conditional versions of each.
 
 ***
 
-## How does React compare to other data binding libraries?
-Some projects you might like to investigate are [knockout](http://knockoutjs.com/), [jstemplate](http://code.google.com/p/google-jstemplate/), [angular](http://angularjs.org/), which are all fantastic, mature projects.  Usually, the main difference between React and these options is the broader expectations they are willing to make on their execution environment - usually resulting in tighter control for the library writer, and less control for the end developer. For example:
+## How does Bound compare to other data binding libraries?
+Some projects you might like to investigate are [knockout](http://knockoutjs.com/), [jstemplate](http://code.google.com/p/google-jstemplate/), [angular](http://angularjs.org/), which are all fantastic, mature projects.  Usually, the main difference between Bound and these options is the broader expectations they are willing to make on their execution environment - usually resulting in tighter control for the library writer, and less control for the end developer. For example:
 
-- Some are coupled with other components of their own system (such as a custom 'binding' class for each reactive substitution)
+- Some are coupled with other components of their own system (such as a custom top-level 'bindable' object class for each substitution)
 - Some lack features features (like dynamic template modification), that are necessary for compatibility with other common use patterns.
 - Some rely on a shared global scope for all templates
 - Most don't allow re-use of existing JS objects from your system as view inputs
@@ -128,19 +131,19 @@ There's also data binding support in both [SproutCore](http://www.sproutcore.com
 
 ***
 
-## Who should use React?
-If you're writing a widget that has or will grow to have non-trivial DOM output, you'll get a lot of value from any library that supports reactive data bindings.  In particular, React is a good choice if you need minimal design impositions and wide compatibility with other client-side libraries.  This is likely to be true when you are introducing reactive bindings to an existing code base little-by-little.
+## Who should use Bound?
+If you're writing a widget that has or will grow to have non-trivial DOM output, you'll get a lot of value from any library that supports data bindings.  In particular, Bound is a good choice if you need minimal design impositions and wide compatibility with other client-side libraries.  This is likely to be true when you are introducing bindings to an existing code base little-by-little.
 
 ***
 
-## Who shouldn't use React?
-Anyone who dislikes loose coupling, laughter, or puppies.  Also, those who need templates that can be rendered by multiple different scripting languages.  For such cases, you might prefer something like [Mustache](http://github.com/janl/mustache.js), by which much of React was inspired.
+## Who shouldn't use Bound?
+Anyone who dislikes loose coupling, laughter, or puppies.  Also, those who need templates that can be rendered by multiple different scripting languages.  For such cases, you might prefer something like [Mustache](http://github.com/janl/mustache.js), by which much of Bound was inspired.
 
-Another thing React doesn't handle for you (yet) is animations.  If the state of your model changes, and visualizing that change requires an animated transition, you have to handle it yourself, the old-fashioned way.  What a drag!
+Another thing Bound doesn't handle for you (yet) is animations.  If the state of your model changes, and visualizing that change requires an animated transition, you have to handle it yourself, the old-fashioned way.  What a drag!
 
-React doesn't support a two-way binding. For exaple, values the user typs into input fields don't get automatically propogated anywhere. This limitation is purposeful, since it's not dead obvious how such a feature should behave.  If it should become clear what the expected result would be though, I'll add support for it.
+Bound doesn't support a two-way binding. For exaple, values the user typs into input fields don't get automatically propogated anywhere. This limitation is purposeful, since it's not dead obvious how such a feature should behave.  If it should become clear what the expected result would be though, I'll add support for it.
 
-Lastly, React is still a young library, so there are sure to be bugs lurking in dark places.  The priority for this library is delivering consistently on existing interface promises, so you can expect bug fixes to come out before feature additions, but check out the todo readme and inline todos for a glipse of the road map for React.
+Lastly, Bound is still a young library, so there are sure to be bugs lurking in dark places.  The priority for this library is delivering consistently on existing interface promises, so you can expect bug fixes to come out before feature additions, but check out the todo readme and inline todos for a glipse of the road map for Bound.
 
 ***
 
@@ -149,24 +152,26 @@ Lastly, React is still a young library, so there are sure to be bugs lurking in 
 
 ***
 
-## What are React's dependencies?
-React currently uses jQuery to facilitate DOM operations, though the dependency is not necessary long term.  It also uses some language primitive features from the js.js library.
+## What are Bound's dependencies?
+React uses jQuery to facilitate DOM operations.  It also uses some language primitive features from the js.js library.
 
 ***
 
 ## What are the syntax rules?
 
-- Directives start with the name of a React method, followed by space-delimited arguments to the method
+- Directive commands are named in the attribute, after a "data-" prefix. They will be processed in order of command precedence (to be described later).
+- Inside the attribute definition are space-delimited arguments to the command.
+- Multiple directives of the same type can be in one data- attribute, separated by commas. They will be processed sequentially left-to-right.
 - Arguments can be strings (surrounded with quotes) or keys for making lookups in the scope chain. (Scope chains are explained below, in the list of directives).
 - Key arguments result in lookups from the scope chain.  If lookup for a supplied key fails on the topmost scope, it falls through to the next highest scope in the chain, and so on until it succeeds or exhausts the chain.
 - Keys support dot notation (`key.subKey`) for selecting a nested property.
-- Multiple, comma-delimited directives can be provided in a single `react` attribute.  They will be processed sequentially left-to-right.
+- If the key resolves to a function, that function will be run and the result will be treated as the resolution
 
 ***
 
 ## What is the API?
 
-The easiest way to use React is as a jQuery extension. While using jQuery is not required, it provides a very elegant syntax for your rendering and anchoring operations.
+The easiest way to use Bound is as a jQuery extension. While using jQuery is not required, it provides a very elegant syntax for your rendering and anchoring operations.
 
 `myJqueryNode.anchor(<mixed> data)`
 Accepts an object or array 'data' to render against myJqueryNode. The substitutions defined in the template node will be taken from the data object, and data bindings will be set up.
@@ -177,7 +182,7 @@ Updates the target node for its present context. This function is designed for w
 
 ***
 
-## What are all the React directives?
+## What are all the Bound directives?
 
 ### Basics
 
@@ -189,7 +194,7 @@ Takes the value found at `key` in the scope chain, and adds it to the top of the
 
 ### Conditionals
 
-In react, conditionals are achieved purely by way of hiding the nodes through css styling.  This way, we don't have to discard the template data, and can easily redisplay it when the input condition changes.
+In bound, conditionals are achieved purely by way of hiding the nodes through css styling.  This way, we don't have to discard the template data, and can easily redisplay it when the input condition changes.
 
 #### `displayIf(<bool> condition)`:
 Sets the CSS property `display` to `none` if `condition` is false, and back to the default if it is true
@@ -203,7 +208,7 @@ Looping nodes interpret their first two child nodes in a special way.  The first
 
 Generated item nodes are subsequently evaluated, inheriting their scope chain from the loop node, except each one is extended with it's item-specific bindings or scope change added to the end of the chain.
 
-Note: always place loop directives at the very end of your react attribute
+Note: always place loop directives at the very end of your bound attribute
 
 Note: Loops assumes the top-most scope object is an array.
 
@@ -217,7 +222,7 @@ Loops over the top-most object in the scope chain, generating a new node for eac
 
 ### Tag-internal directives
 
-Some things you wish to express in your template will relate directly to tag attributes, rather than whole tags or content blocks.  Since all react directives are stored in a single custom attribute, react has a special set of directives to allow you to manipulate other attribute on the node.
+Some things you wish to express in your template will relate directly to tag attributes, rather than whole tags or content blocks.  Since all bound directives are stored in a single custom attribute, bound has a special set of directives to allow you to manipulate other attribute on the node.
 
 #### `checkedIf(<bool> condition)`:
 Sets checked to active on the current node if `condition` is true.  Otherwise, sets it to false.
@@ -242,12 +247,14 @@ Sets the style property specified by `attrName` to the specified value if `condi
 
 ### Debugging
 
+<!--
 #### `debug(...directive)`
 Pauses execution with a debugger command at directive evaluation time. Prepend this command to an existing directive that you wish to examine. Example:
 if `react="contain myString"` was not working as you expect, you can explore react's update routine by changing it to `react="debug contain myString"`
 
 #### `debugIf(condition, ...directive)`
 Works the same as debug(), but only if the condition argument resolves to true.
+-->
 
 
 ***
@@ -258,11 +265,11 @@ True, though I believe most are semantically unavoidable, given the constraints 
 ***
 
 ## How does it work?
-Under the hood, react adds string annotations to the input template node, the input view object, and all relevant descendants thereof.  To minimize the footprint react has on your objects, the details and object links needed to give these annotations meaning are managed centrally within React.  Whenever you indicate to React that a given property has changed on an object, React checks that object for annotations.  If it finds any relevant ones, it verifies that the annotations have not been invalidated (through rearrangements in DOM or object structure).  It then re-computes any substitutions that depended on those modified properties.  I'm writing a more detailed explanation of the internals for a separate document, so please post any specific questions or in the [github comments](https://github.com/marcusphillips/react/comments) page.
+Under the hood, bound adds string annotations to the input template node, the input view object, and all relevant descendants thereof.  To minimize the footprint bound has on your objects, the details and object links needed to give these annotations meaning are managed centrally within Bound.  Whenever you indicate to Bound that a given property has changed on an object, Bound checks that object for annotations.  If it finds any relevant ones, it verifies that the annotations have not been invalidated (through rearrangements in DOM or object structure).  It then re-computes any substitutions that depended on those modified properties.  I'm writing a more detailed explanation of the internals for a separate document, so please post any specific questions or in the [github comments](https://github.com/marcusphillips/boundjs/comments) page.
 
 ***
 
 ## FAQ
 
-#### Does React support subtemplates?
-React provides support for a widget inclusion. If the contain directive finds a DOM node as its substitution, it will insert the node as-is.
+#### Does Bound support subtemplates?
+Bound provides support for a widget inclusion. If the contain directive finds a DOM node as its substitution, it will insert the node as-is. Full support for rendered subtemplates is planned.

@@ -1,6 +1,6 @@
 /*!
- * React for JavaScript - an easy-rerender template language
- * Version 1.3.1, http://github.com/marcusphillips/react
+ * Bound for JavaScript - an easy-rerender template language
+ * Version 0.0.1, http://github.com/marcusphillips/boundjs
  *
  * Copyright 2010, Marcus Phillips
  * Dual licensed under the MIT or GPL Version 2 licenses.
