@@ -1,0 +1,47 @@
+relationships between the state layers on visitable objects
+
+                               container
+----------------------------------------
+| (unprocessed)                        |
+|      \                               |
+|       \            top-of-tree       |
+|        -----------------------       |
+|        | (inherited)         |       |
+|        | (unprocessed)       |       |
+|        |  \                  |       |
+|        |   \     1st-member  |       |
+|        |  -----------------  |       |
+|        |  | (inherited)   |  |       |
+|        |  | (unprocessed) |  |       |
+|        |  | [1st-member]  |  |       |
+|        |  | ...           |  |       |
+|        |  | [nth-member]  |  |       |
+|        |  | (processed)   |  |       |
+|        |  | (bequeathed)  |  |       |
+|        |  -----------------  |       |
+|        |     |               |       |
+|        |    ...              |       |
+|        |     |   Nth-member  |       |
+|        |  -----------------  |       |
+|        |  | (inherited)   |  |       |
+|        |  | (unprocessed) |  |       |
+|        |  | (processing)  |  |       |
+|        |  | (processed)   |  |       |
+|        |  | (bequeathed)  |  |       |
+|        |  -----------------  |       |
+|        |   /                 |       |
+|        | (processed)         |       |
+|        | (bequeathed)        |       |
+|        -----------------------       |
+|                 /  \                 |
+|                /    \         child  |
+|  ----------------  ----------------  |
+|  | (inherited)  |  | (inherited)  |  |
+|  | ...          |  | ...          |  |
+|  | (bequeathed) |  | (bequeathed) |  |
+|  ----------------  ----------------  |
+|  ...                                 |
+|                                      |
+----------------------------------------
+
+

@@ -1,0 +1,73 @@
+1.3.1
+---
+- deprecated react.nodes hash, react.scopes hash, and react.name(object, nameKey) - nodes and scope objects are not centrally stored anymore, and global the scope feature isnt supported fully enough yet to leave in
+- (internal) directives are refered to by persistent keys, not thier index in the string
+- (internal) js.* iterators now pass the item as the first argument to the callback block
+- (internal) js.* iterators now run in the context of the input collection, unless you pass a context argument in after the block.
+- (internal) js.* iterators can accept strings and arrays to be transformed into a block
+- (internal) anchors now stored on node proxies, rather than in central hash
+- (internal) annotating objects via bound.prototype closure scope, rather than with string serializations
+- (internal) using a Resolution class to handle .lookup() operation
+
+1.3
+---
+- react automatically integrates with jQuery if it is available in the global scope
+- 'anchor' is no longer a valid option to react.update()
+- .update() now takes only one input, a DOM node or jQuery object with one element. It does not accept options or scope objects
+  - you can no longer update against a scope without anchoring to it
+- lookup failures for within directive turns off render and display of that node
+- anchored nodes...
+  - don't inherit parent's scope chain
+  - aren't visited in updates to parent nodes
+- react.anchor() always incurs an update
+- new jQuery helper, .update(), which updates the target node
+- fromDirective no longer a valid input to react.update()
+- (internal) command functions now receive pre-resolved inputs
+- (internal) allows for custom name resultion through use of .resolve_*() functions on command object
+
+1.2.5
+---
+- no interface changes
+- full use of prototypes and pseudoclassical patterns (to take advantage of the browser optimizations fo them)
+
+1.2.4
+---
+- no interface changes
+- moving toward usage of protoypal patterns internally
+
+1.2.3
+---
+- no interface changes
+
+1.2.2
+---
+- results container no longer used for iteration directives. results are now stored as siblings of the template node
+
+1.2.1
+---
+- new directive 'debug' halts at a debugger breakpoint as soon as the directive gets followed
+- new directive 'debugIf' halts only when first argument is truthy
+- new directive 'log' outputs information about its arguments
+
+- react.integrate.jQuery() no longer adds an update() methoed. it instead provides .anchor(), which operates the same but always anchors in the process
+  - also adds a .items() helper to jqeury objects that returns all the elements generated during iteration.
+  -  and .item(index) provides a single item from the generated nodes
+- react.helpers(object) adds .set(), .del(), .changed(), .anchor() to the object
+
+1.2
+---
+- new directive 'log' outputs information about the current rendering context and any inputs
+- lookups in scope chain fail only when property is not in the object at all, rather than when it is present but set to undefined
+- allows for progressive rendering
+  - dot access into undefined and null properties resolves to undefined, rather than erroring
+  - the scope extension directives 'within', 'withinItem', and 'anchored' do not error when scope is undefined
+  - withinItem passes if the top scope is not an array-like object
+
+1.1.3
+- any node substituted by a 'contain' directive does not inherit the containing scope chain, and is not recursed onto for an update operation
+
+1.1.2 - cleanup and bug fixes
+---
+- Bugfix: In ie, react was iterating into loop templates. expando data properties were being copied, but now using jquery's .data() function
+- Bugfix: In ie, react would error on trying to work with the object returned from querySelectorAll()
+- Large under-the-hood revision to structure and readability
